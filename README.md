@@ -13,6 +13,7 @@ The API is built with **FastAPI** and packaged in a **Docker** container for eas
 Clone the repository:
 
 git clone https://github.com/FedorKaltiugin/WeatherServiceAPI.git
+
 cd WeatherServiceAPI
 
 Build the Docker image:
