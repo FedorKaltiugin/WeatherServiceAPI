@@ -16,16 +16,19 @@ Clone the repository:
 git clone https://github.com/FedorKaltiugin/WeatherServiceAPI.git
 
 cd WeatherServiceAPI
+```
 
 Build the Docker image:
 
 ```bash
 docker build -t weather-service .
+```
 
 Run the container:
 
 ```bash
 docker run -d --name weather-s -p 5000:8000 weather-service
+```
 
 After that, the API will be available at:
 
