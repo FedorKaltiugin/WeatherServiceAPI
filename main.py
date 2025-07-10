@@ -3,10 +3,31 @@ from pydantic import BaseModel
 import numpy as np
 import pandas as pd
 import joblib
+import os
 from tensorflow.keras.models import load_model
+from dotenv import load_dotenv
+import gdown
 
 
-app = FastAPI()
+load_dotenv()
+
+files = {
+    'models/model_lstm.keras': os.getenv("model_id"),
+    'models/X_scaler.pkl': os.getenv("X_scaler_id"),
+    'models/y_scaler.pkl': os.getenv("y_scaler_id"),
+    'models/minmax_scaler.pkl': os.getenv("minmax_scaler_id"),
+    'models/scaler_precipitation.pkl': os.getenv("scaler_precipitation_id"),
+    'models/scaler_temp_max.pkl': os.getenv("scaler_temp_max_id"),
+    'models/scaler_temp_min.pkl': os.getenv("scaler_temp_min_id"),
+    'models/scaler_wind.pkl': os.getenv("scaler_wind_id"),
+    'data/X_last.csv': os.getenv("X_id"),
+}
+
+for path, file_id in files.items():
+    url = f"https://drive.google.com/uc?id={file_id}"
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    if not os.path.exists(path):
+        gdown.download(url, path, quiet=False)
 
 model = load_model("models/model_lstm.keras")
 X_scaler = joblib.load("models/X_scaler.pkl")
@@ -18,6 +39,7 @@ scaler_temp_min = joblib.load("models/scaler_temp_min.pkl")
 scaler_wind = joblib.load("models/scaler_wind.pkl")
 X = pd.read_csv("data/X_last.csv")
 
+app = FastAPI()
 
 LOOKBACK = 7
 HORIZON = 30
